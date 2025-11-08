@@ -6,7 +6,7 @@ require('dotenv').config();
 
 // Crear aplicación Express
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware para permitir solicitudes de diferentes dominios (CORS)
 app.use(cors());
