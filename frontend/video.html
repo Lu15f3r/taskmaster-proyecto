@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Explicativo - TaskMaster</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-tasks me-2"></i>
+                TaskMaster
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-arrow-left me-1"></i>
+                    Volver a la App
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="card-title mb-0">
+                            <i class="fas fa-video me-2"></i>
+                            Video Explicativo del Proyecto
+                        </h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="alert alert-info">
+                            <h5 class="alert-heading">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Instrucciones para el Video
+                            </h5>
+                            <p class="mb-0">
+                                En esta sección debes incluir tu video explicativo de máximo 4 minutos. 
+                                El video debe mostrar cómo funciona el sistema y explicar los conceptos técnicos 
+                                de manera que un usuario no técnico pueda entenderlo.
+                            </p>
+                        </div>
+                        
+                        <!-- Espacio para el video -->
+                        <div class="video-container text-center my-4 p-4 bg-light rounded">
+                            <h4 class="mb-4">Tu Video Explicativo Aquí</h4>
+                            
+                            <!-- Puedes reemplazar este div con tu video real -->
+                            <div class="placeholder-video bg-secondary rounded d-flex align-items-center justify-content-center" 
+                                 style="height: 400px; background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);">
+                                <div class="text-white text-center">
+                                    <i class="fas fa-play-circle fa-4x mb-3"></i>
+                                    <h5>Video Explicativo del Proyecto</h5>
+                                    <p class="mb-0">Duración máxima: 4 minutos</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Instrucciones para subir el video -->
+                            <div class="mt-4">
+                                <p class="text-muted">
+                                    <strong>Para incluir tu video:</strong><br>
+                                    1. Graba un video explicativo de máximo 4 minutos<br>
+                                    2. Súbelo a YouTube, Google Drive o similar<br>
+                                    3. Reemplaza este contenido con el código de inserción de tu video
+                                </p>
+                                
+                                <!-- Ejemplo de cómo insertar un video de YouTube -->
+                                <div class="mt-3">
+                                    <small class="text-muted">
+                                        <strong>Ejemplo para YouTube:</strong><br>
+                                        &lt;iframe width="100%" height="400" src="https://www.youtube.com/embed/TU_VIDEO_ID" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Información del proyecto -->
+                        <div class="row mt-5">
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h5 class="card-title mb-0">
+                                            <i class="fas fa-cogs me-2"></i>
+                                            Tecnologías Utilizadas
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">
+                                                <strong>Frontend:</strong> HTML, CSS, JavaScript, Bootstrap
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong>Backend:</strong> Node.js, Express.js
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong>Base de Datos:</strong> MongoDB (NoSQL)
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong>Arquitectura:</strong> REST API
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h5 class="card-title mb-0">
+                                            <i class="fas fa-list-check me-2"></i>
+                                            Funcionalidades
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">
+                                                <i class="fas fa-check text-success me-2"></i>
+                                                Crear nuevas tareas
+                                            </li>
+                                            <li class="list-group-item">
+                                                <i class="fas fa-check text-success me-2"></i>
+                                                Marcar tareas como completadas
+                                            </li>
+                                            <li class="list-group-item">
+                                                <i class="fas fa-check text-success me-2"></i>
+                                                Eliminar tareas
+                                            </li>
+                                            <li class="list-group-item">
+                                                <i class="fas fa-check text-success me-2"></i>
+                                                Fechas de vencimiento
+                                            </li>
+                                            <li class="list-group-item">
+                                                <i class="fas fa-check text-success me-2"></i>
+                                                Interfaz responsive
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskMaster - Sistema de Gestión de Tareas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Nuestro archivo CSS personalizado -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-tasks me-2"></i>
+                TaskMaster
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="video.html">Video Explicativo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <!-- Encabezado -->
+                <div class="text-center mb-5">
+                    <h1 class="display-4 text-primary">TaskMaster</h1>
+                    <p class="lead">Sistema inteligente de gestión de tareas</p>
+                </div>
+
+                <!-- Formulario para agregar tareas -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-plus-circle text-primary me-2"></i>
+                            Agregar Nueva Tarea
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="formTarea">
+                            <div class="mb-3">
+                                <label for="titulo" class="form-label">Título de la tarea</label>
+                                <input type="text" class="form-control" id="titulo" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="descripcion" rows="2"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fechaVencimiento" class="form-label">Fecha de vencimiento</label>
+                                <input type="date" class="form-control" id="fechaVencimiento">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>
+                                Guardar Tarea
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Lista de tareas -->
+                <div class="card shadow-sm">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-list-check text-primary me-2"></i>
+                            Mis Tareas
+                        </h5>
+                        <span id="contadorTareas" class="badge bg-primary">0 tareas</span>
+                    </div>
+                    <div class="card-body">
+                        <div id="listaTareas">
+                            <!-- Aquí se cargarán las tareas dinámicamente -->
+                            <div class="text-center py-4 text-muted">
+                                <i class="fas fa-clipboard-list fa-2x mb-2"></i>
+                                <p>No hay tareas registradas. ¡Agrega tu primera tarea!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Nuestro archivo JS personalizado -->
+    <script src="script.js"></script>
+</body>
+</html>
