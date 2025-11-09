@@ -29,18 +29,21 @@ formTarea.addEventListener('submit', function(e) {
     agregarTarea(nuevaTarea);
 });
 
-// Función para cargar todas las tareas desde el backend
+// Función para cargar tareas
 async function cargarTareas() {
     try {
-        // Hacer petición GET al backend
-        const respuesta = await fetch(API_URL);
-        const tareas = await respuesta.json();
-        
-        // Mostrar las tareas en la interfaz
+        const response = await fetch(API_URL);
+        const tareas = await response.json();
         mostrarTareas(tareas);
     } catch (error) {
-        console.error('Error al cargar tareas:', error);
-        mostrarError('No se pudieron cargar las tareas. Verifica que el servidor esté funcionando.');
+        console.error('Error cargando tareas:', error);
+        // Muestra un mensaje de error al usuario
+        document.getElementById('listaTareas').innerHTML = `
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                Error conectando al servidor. Verifica tu conexión.
+            </div>
+        `;
     }
 }
 
