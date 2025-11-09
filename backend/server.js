@@ -57,6 +57,9 @@ app.get('/', (req, res) => {
 // DEBUG: Verificar carga de rutas
 console.log('🔄 Intentando cargar rutas de tareas...');
 try {
+  console.log('📁 Directorio actual:', __dirname);
+  console.log('📁 Intentando cargar:', __dirname + '/routes/tareas.js');
+  
   const tareasRoutes = require('./routes/tareas');
   console.log('✅ routes/tareas.js cargado exitosamente');
   
@@ -64,15 +67,14 @@ try {
   app.use('/api/tareas', tareasRoutes);
   console.log('✅ Rutas /api/tareas registradas correctamente');
   
+  // Ruta de prueba
+  app.get('/api/test', (req, res) => {
+    res.json({ mensaje: 'Ruta de prueba funciona' });
+  });
+  
 } catch (error) {
   console.error('❌ ERROR CARGANDO RUTAS:', error);
-  // Ruta de fallback para debugging
-  app.use('/api/tareas', (req, res) => {
-    res.status(500).json({ 
-      error: 'Error cargando rutas',
-      mensaje: error.message 
-    });
-  });
+  console.error('❌ Stack completo:', error.stack);
 }
 
 // Manejo de rutas no encontradas
