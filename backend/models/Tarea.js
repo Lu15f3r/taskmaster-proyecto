@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Definir el esquema (estructura) de una tarea en la base de datos
+//  esquema (estructura) de una tarea en la base de datos
 const tareaSchema = new mongoose.Schema({
   titulo: {
     type: String,
