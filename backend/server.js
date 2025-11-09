@@ -15,6 +15,14 @@ app.use(cors({
     credentials: true
 }));
 
+// Middleware CORS adicional para headers manuales
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+});
+
 // Middleware para procesar datos JSON en las solicitudes
 app.use(express.json());
 
