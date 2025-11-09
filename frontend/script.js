@@ -1,5 +1,5 @@
-// URL del backend - cambiar si se despliega en otro lugar
-const API_URL = 'http://localhost:3001/api/tareas';
+// URL del backend - si se despliega en otro lugar cambiamos esto
+const API_URL = 'https://task-master-production.up.railway.app/api/tareas';
 
 // Elementos del DOM
 const formTarea = document.getElementById('formTarea');
@@ -181,7 +181,7 @@ function mostrarTareas(tareas) {
         `;
     });
     
-    // Insertar HTML en el contenedor
+    // Insertar el HTML en el contenedor
     listaTareas.innerHTML = html;
 }
 
