@@ -54,10 +54,26 @@ app.get('/', (req, res) => {
   });
 });
 
-// Importar rutas de tareas
-const tareasRoutes = require('./routes/tareas');
-// Usar las rutas con el prefijo /api
-app.use('/api/tareas', tareasRoutes);
+// DEBUG: Verificar carga de rutas
+console.log('🔄 Intentando cargar rutas de tareas...');
+try {
+  const tareasRoutes = require('./routes/tareas');
+  console.log('✅ routes/tareas.js cargado exitosamente');
+  
+  // Usar las rutas con el prefijo /api
+  app.use('/api/tareas', tareasRoutes);
+  console.log('✅ Rutas /api/tareas registradas correctamente');
+  
+} catch (error) {
+  console.error('❌ ERROR CARGANDO RUTAS:', error);
+  // Ruta de fallback para debugging
+  app.use('/api/tareas', (req, res) => {
+    res.status(500).json({ 
+      error: 'Error cargando rutas',
+      mensaje: error.message 
+    });
+  });
+}
 
 // Manejo de rutas no encontradas
 app.use('*', (req, res) => {
