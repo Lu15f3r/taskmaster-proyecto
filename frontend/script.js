@@ -1,5 +1,5 @@
 // 🌍 URL PARA NETLIFY - CAMBIA ESTA URL POR LA DE NGROK CUANDO LA TENGAS
-const API_URL = 'https://taskmaster-backend.onrender.com/api/tareas'; 
+const API_URL = 'https://taskmaster-proyecto.onrender.com/api/tareas'; 
 
 // Elementos DOM
 const formTarea = document.getElementById('formTarea');
