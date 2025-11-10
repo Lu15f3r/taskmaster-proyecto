@@ -1,57 +1,51 @@
-// URL del backend - si se despliega en otro lugar cambiamos esto
+// 🌍 URL PARA NETLIFY - CAMBIA ESTA URL POR LA DE NGROK CUANDO LA TENGAS
 const API_URL = 'https://taskmaster-backend.onrender.com/api/tareas'; 
 
-
-// Elementos del DOM
+// Elementos DOM
 const formTarea = document.getElementById('formTarea');
 const listaTareas = document.getElementById('listaTareas');
 const contadorTareas = document.getElementById('contadorTareas');
 
-// Cargar tareas cuando la página se carga
+// Cargar tareas al iniciar
 document.addEventListener('DOMContentLoaded', cargarTareas);
 
-// Evento para enviar el formulario de nueva tarea
+// Evento formulario
 formTarea.addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevenir envío normal del formulario
+    e.preventDefault();
     
-    // Obtener datos del formulario
     const titulo = document.getElementById('titulo').value;
     const descripcion = document.getElementById('descripcion').value;
     const fechaVencimiento = document.getElementById('fechaVencimiento').value;
     
-    // Crear objeto tarea
     const nuevaTarea = {
         titulo: titulo,
         descripcion: descripcion,
         fechaVencimiento: fechaVencimiento || null
     };
     
-    // Enviar tarea al backend
     agregarTarea(nuevaTarea);
 });
 
-// Función para cargar tareas
+// Función cargar tareas
 async function cargarTareas() {
     try {
         const response = await fetch(API_URL);
         const tareas = await response.json();
         mostrarTareas(tareas);
     } catch (error) {
-        console.error('Error cargando tareas:', error);
-        // Muestra un mensaje de error al usuario
-        document.getElementById('listaTareas').innerHTML = `
+        console.error('Error:', error);
+        listaTareas.innerHTML = `
             <div class="alert alert-warning">
                 <i class="fas fa-exclamation-triangle"></i>
-                Error conectando al servidor. Verifica tu conexión.
+                Error conectando al backend. Verifica la conexión.
             </div>
         `;
     }
 }
 
-// Función para agregar una nueva tarea
+// Función agregar tarea
 async function agregarTarea(tarea) {
     try {
-        // Hacer petición POST al backend
         const respuesta = await fetch(API_URL, {
             method: 'POST',
             headers: {
@@ -61,95 +55,78 @@ async function agregarTarea(tarea) {
         });
         
         if (respuesta.ok) {
-            // Limpiar formulario
             formTarea.reset();
-            // Recargar la lista de tareas
             cargarTareas();
         } else {
             throw new Error('Error al agregar tarea');
         }
     } catch (error) {
-        console.error('Error al agregar tarea:', error);
-        mostrarError('No se pudo agregar la tarea. Verifica que el servidor esté funcionando.');
+        console.error('Error:', error);
+        alert('No se pudo agregar la tarea. Verifica el backend.');
     }
 }
 
-// Función para actualizar una tarea (marcar como completada/no completada)
-async function actualizarTarea(id, datosActualizados) {
+// Función actualizar tarea
+async function actualizarTarea(id, datos) {
     try {
-        // Hacer petición PUT al backend
         const respuesta = await fetch(`${API_URL}/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(datosActualizados)
+            body: JSON.stringify(datos)
         });
         
         if (respuesta.ok) {
-            // Recargar la lista de tareas
             cargarTareas();
         } else {
             throw new Error('Error al actualizar tarea');
         }
     } catch (error) {
-        console.error('Error al actualizar tarea:', error);
-        mostrarError('No se pudo actualizar la tarea.');
+        console.error('Error:', error);
+        alert('Error al actualizar tarea');
     }
 }
 
-// Función para eliminar una tarea
+// Función eliminar tarea
 async function eliminarTarea(id) {
-    if (!confirm('¿Estás seguro de que quieres eliminar esta tarea?')) {
-        return;
-    }
+    if (!confirm('¿Eliminar esta tarea?')) return;
     
     try {
-        // Hacer petición DELETE al backend
         const respuesta = await fetch(`${API_URL}/${id}`, {
             method: 'DELETE'
         });
         
         if (respuesta.ok) {
-            // Recargar la lista de tareas
             cargarTareas();
         } else {
             throw new Error('Error al eliminar tarea');
         }
     } catch (error) {
-        console.error('Error al eliminar tarea:', error);
-        mostrarError('No se pudo eliminar la tarea.');
+        console.error('Error:', error);
+        alert('Error al eliminar tarea');
     }
 }
 
-// Función para mostrar las tareas en la interfaz
+// Función mostrar tareas
 function mostrarTareas(tareas) {
-    // Actualizar contador
     contadorTareas.textContent = `${tareas.length} ${tareas.length === 1 ? 'tarea' : 'tareas'}`;
     
-    // Si no hay tareas, mostrar mensaje
     if (tareas.length === 0) {
         listaTareas.innerHTML = `
             <div class="text-center py-4 text-muted">
                 <i class="fas fa-clipboard-list fa-2x mb-2"></i>
-                <p>No hay tareas registradas. ¡Agrega tu primera tarea!</p>
+                <p>No hay tareas. ¡Agrega la primera!</p>
             </div>
         `;
         return;
     }
     
-    // Generar HTML para cada tarea
     let html = '';
     tareas.forEach(tarea => {
-        // Determinar clases CSS según el estado de la tarea
         let claseTarea = 'tarea-item';
-        if (tarea.completada) {
-            claseTarea += ' tarea-completada';
-        } else if (tarea.fechaVencimiento && new Date(tarea.fechaVencimiento) < new Date()) {
-            claseTarea += ' tarea-vencida';
-        }
+        if (tarea.completada) claseTarea += ' tarea-completada';
         
-        // Formatear fecha
         const fechaCreacion = new Date(tarea.fechaCreacion).toLocaleDateString();
         const fechaVencimiento = tarea.fechaVencimiento 
             ? new Date(tarea.fechaVencimiento).toLocaleDateString() 
@@ -168,14 +145,12 @@ function mostrarTareas(tareas) {
                             </div>
                         </div>
                         <div class="d-flex ms-3">
-                            <button class="btn btn-sm ${tarea.completada ? 'btn-warning' : 'btn-success'} btn-action me-1" 
-                                    onclick="toggleCompletada('${tarea._id}', ${!tarea.completada})"
-                                    title="${tarea.completada ? 'Marcar como pendiente' : 'Marcar como completada'}">
+                            <button class="btn btn-sm ${tarea.completada ? 'btn-warning' : 'btn-success'} me-1" 
+                                    onclick="toggleCompletada('${tarea._id}', ${!tarea.completada})">
                                 <i class="fas ${tarea.completada ? 'fa-undo' : 'fa-check'}"></i>
                             </button>
-                            <button class="btn btn-sm btn-danger btn-action" 
-                                    onclick="eliminarTarea('${tarea._id}')"
-                                    title="Eliminar tarea">
+                            <button class="btn btn-sm btn-danger" 
+                                    onclick="eliminarTarea('${tarea._id}')">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -185,34 +160,10 @@ function mostrarTareas(tareas) {
         `;
     });
     
-    // Insertar el HTML en el contenedor
     listaTareas.innerHTML = html;
 }
 
-// Función para cambiar el estado de completado de una tarea
+// Función toggle completada
 function toggleCompletada(id, completada) {
     actualizarTarea(id, { completada: completada });
-}
-
-// Función para mostrar mensajes de error
-function mostrarError(mensaje) {
-    // Crear elemento de alerta
-    const alerta = document.createElement('div');
-    alerta.className = 'alert alert-danger alert-dismissible fade show';
-    alerta.innerHTML = `
-        <i class="fas fa-exclamation-triangle me-2"></i>
-        ${mensaje}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    `;
-    
-    // Insertar al inicio del contenedor principal
-    const container = document.querySelector('.container');
-    container.insertBefore(alerta, container.firstChild);
-    
-    // Auto-eliminar después de 5 segundos
-    setTimeout(() => {
-        if (alerta.parentNode) {
-            alerta.remove();
-        }
-    }, 5000);
 }
