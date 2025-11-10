@@ -1,5 +1,6 @@
 // URL del backend - si se despliega en otro lugar cambiamos esto
-const API_URL = 'https://task-master-production.up.railway.app/api/tareas';
+const API_URL = 'https://taskmaster-backend.onrender.com/api/tareas'; 
+
 
 // Elementos del DOM
 const formTarea = document.getElementById('formTarea');
