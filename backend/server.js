@@ -8,83 +8,104 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware CORS CONFIGURADO CORRECTAMENTE
+// 🔥 CONFIGURACIÓN CORS CORREGIDA PARA PRODUCCIÓN
 app.use(cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: "*", // ✅ ACEPTA CUALQUIER ORIGEN
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
     credentials: true
 }));
 
-// Middleware CORS adicional para headers manuales
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-});
+// 🔥 MANEJO DE PRE-FLIGHT REQUESTS (IMPORTANTE)
+app.options('*', cors()); // ✅ Maneja requests OPTIONS
 
-// Middleware para procesar datos JSON en las solicitudes
+// Middleware para procesar datos JSON
 app.use(express.json());
 
-// Conectar a la base de datos MongoDB
+// Conectar a MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/tareasdb', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
 .then(() => console.log('✅ Conectado a MongoDB'))
 .catch(err => console.error('❌ Error conectando a MongoDB:', err));
 
-// Ruta de salud para verificar que el servidor funciona
-app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
-    mensaje: '🚀 Servidor del Sistema de Tareas funcionando correctamente',
-    timestamp: new Date()
-  });
-});
-
-// Ruta básica para verificar que el servidor funciona
-app.get('/', (req, res) => {
-  res.json({ 
-    mensaje: '🚀 Servidor del Sistema de Tareas funcionando correctamente',
-    endpoints: {
-      tareas: '/api/tareas',
-      health: '/health'
-    }
-  });
-});
-
-// DEBUG: Verificar carga de rutas
-console.log('🔄 Intentando cargar rutas de tareas...');
+// 🔥 VERIFICAR Y CARGAR RUTAS DE TAREAS
+console.log('🔄 Cargando rutas de tareas...');
 try {
-  console.log('📁 Directorio actual:', __dirname);
-  console.log('📁 Intentando cargar:', __dirname + '/routes/tareas.js');
-  
-  const tareasRoutes = require('./routes/tareas');
-  console.log('✅ routes/tareas.js cargado exitosamente');
-  
-  // Usar las rutas con el prefijo /api
-  app.use('/api/tareas', tareasRoutes);
-  console.log('✅ Rutas /api/tareas registradas correctamente');
-  
-  // Ruta de prueba
-  app.get('/api/test', (req, res) => {
-    res.json({ mensaje: 'Ruta de prueba funciona' });
-  });
-  
+    const tareasRoutes = require('./routes/tareas');
+    app.use('/api/tareas', tareasRoutes);
+    console.log('✅ Rutas /api/tareas registradas correctamente');
 } catch (error) {
-  console.error('❌ ERROR CARGANDO RUTAS:', error);
-  console.error('❌ Stack completo:', error.stack);
+    console.error('❌ ERROR cargando rutas:', error);
+    console.error('📌 Stack:', error.stack);
 }
 
-// Manejo de rutas no encontradas
-app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Ruta no encontrada' });
+// ==================== RUTAS DEL API ====================
+
+// Ruta de prueba
+app.get('/api/test', (req, res) => {
+    res.json({ 
+        mensaje: '✅ Backend funcionando correctamente',
+        cors: 'Configurado para producción',
+        fecha: new Date()
+    });
 });
 
-// Iniciar el servidor
+// Ruta principal
+app.get('/', (req, res) => {
+    res.json({ 
+        mensaje: '🚀 Servidor de Tareas - Backend Activo',
+        endpoints: {
+            test: '/api/test',
+            tareas: '/api/tareas',
+            health: '/health'
+        },
+        cors: 'Habilitado para todos los orígenes'
+    });
+});
+
+// Ruta de salud
+app.get('/health', (req, res) => {
+    res.json({ 
+        status: 'OK', 
+        mongodb: mongoose.connection.readyState === 1 ? 'Conectado' : 'Desconectado',
+        cors: 'Configurado',
+        timestamp: new Date()
+    });
+});
+
+// 🔥 MANEJO DE ERRORES MEJORADO
+app.use('*', (req, res) => {
+    res.status(404).json({ 
+        error: 'Ruta no encontrada',
+        rutas_disponibles: [
+            '/',
+            '/api/test', 
+            '/api/tareas',
+            '/health'
+        ]
+    });
+});
+
+// Manejo de errores global
+app.use((err, req, res, next) => {
+    console.error('❌ Error del servidor:', err);
+    res.status(500).json({ 
+        error: 'Error interno del servidor',
+        mensaje: err.message
+    });
+});
+
+// Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`🎯 Servidor ejecutándose y LISTO en el puerto: ${PORT}`);
-  console.log(`🌐 URL local: http://localhost:${PORT}`);
-  console.log(`🔧 Entorno: ${process.env.NODE_ENV || 'development'}`);
+    console.log('='.repeat(60));
+    console.log('🚀 SERVIDOR INICIADO - CORS CONFIGURADO');
+    console.log('='.repeat(60));
+    console.log(`📍 Puerto: ${PORT}`);
+    console.log(`🌐 URL: http://localhost:${PORT}`);
+    console.log(`🔧 Entorno: ${process.env.NODE_ENV || 'development'}`);
+    console.log('✅ CORS: Habilitado para todos los orígenes');
+    console.log('✅ Métodos: GET, POST, PUT, DELETE, OPTIONS');
+    console.log('='.repeat(60));
 });
